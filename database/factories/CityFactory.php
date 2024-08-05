@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Governorate;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,8 @@ class CityFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->unique()->city(),
+            'governorate_id' => Governorate::inRandomOrder()->first()->id,
         ];
     }
 }

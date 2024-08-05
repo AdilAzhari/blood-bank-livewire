@@ -13,7 +13,7 @@ class BloodType extends Model
     ];
     public function clients()
     {
-        return $this->morphedByMany(Client::class, 'clientable');
+        return $this->morphToMany(Client::class, 'clientable');
     }
     public function donations()
     {

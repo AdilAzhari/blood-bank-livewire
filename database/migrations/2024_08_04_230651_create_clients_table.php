@@ -14,7 +14,6 @@ return new class extends Migration
         if (Schema::hasTable('clients')) {
             return;
         }
-
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->string('phone', 255);
@@ -27,11 +26,16 @@ return new class extends Migration
             $table->date('d_o_b');
             $table->string('pin_code', 255)->nullable();
             $table->enum('status',['active','inactive']);
-
             $table->foreignId('blood_type_id')->constrained()->cascadeOnDelete();
             $table->foreignId('city_id')->constrained('city')->cascadeOnDelete();
             $table->softDeletes();
+            $table->timestamps();
+        });
 
+        Schema::create('clientables', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('client_id')->constrained()->cascadeOnDelete();
+            $table->morphs('clientable');
             $table->timestamps();
         });
     }
@@ -42,5 +46,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('clients');
+        Schema::dropIfExists('clientables');
     }
 };

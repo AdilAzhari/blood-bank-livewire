@@ -17,5 +17,6 @@ class Setting extends Model
         'tw_link',
         'insta_link',
         'notification_setting_text',
+        'about_us_text',
     ];
 }

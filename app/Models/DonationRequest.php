@@ -30,7 +30,7 @@ class DonationRequest extends Model
 
     public function client()
     {
-        return $this->belongsTo(Client::class);
+        return $this->morphTo(Client::class, 'clientable');
     }
 
     public function bloodType()

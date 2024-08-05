@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
+            $table->string('title', 255);
+            $table->text('content');
+            $table->foreignId('donation_request_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

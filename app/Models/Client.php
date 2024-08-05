@@ -26,7 +26,7 @@ class Client extends Model
     }
     public function bloodType()
     {
-        return $this->belongsTo(BloodType::class);
+        return $this->morphTo(BloodType::class, 'bloodable');
     }
     public function donationRequests()
     {
@@ -34,17 +34,7 @@ class Client extends Model
     }
     public function city()
     {
-        return $this->belongsTo(City::class);
-    }
-
-    public function posts()
-    {
-        return $this->morphToMany(Post::class, 'clientable');
-    }
-
-    public function notifications()
-    {
-        return $this->morphToMany(Notification::class, 'clientable');
+        return $this->morphTo(City::class, 'cityable');
     }
 
     public function contacts()
@@ -56,6 +46,19 @@ class Client extends Model
     {
         return $this->morphedByMany(Governorate::class, 'clientable');
     }
+    public function posts()
+    {
+        return $this->morphedByMany(Post::class, 'clientable');
+    }
+
+    public function notifications()
+    {
+        return $this->morphedByMany(Notification::class, 'clientable');
+    }
+    public function favorites()
+    {
+        return $this->belongsToMany(Post::class, 'favorites');
+    }
     public function scopeFilter($query, $filters)
     {
         return $query->when($filters['name'] ?? null, function ($query, $name) {
@@ -63,9 +66,5 @@ class Client extends Model
         })->when($filters['status'] ?? null, function ($query, $status) {
             $query->where('status', $status);
         });
-    }
-    public function favorites()
-    {
-        return $this->belongsToMany(Post::class, 'favorites');
     }
 }
